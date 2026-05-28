@@ -2,7 +2,7 @@
   "name": "dummy-crud",
   "version": "1.0.0",
   "description": "Se crea una interfaz CRUD para afianzar conocimientos",
-  "type":"module",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "start": "node app.js",
@@ -12,7 +12,8 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^17.4.2",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "sweetalert2": "^11.26.25"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"

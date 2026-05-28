@@ -1,36 +1,31 @@
-const baseURL = 'https://dummyjson.com/products';
+const baseURL = "https://dummyjson.com/products";
 
 let products = [];
 
-function getProducts(){
-
+function getProducts() {
   fetch(baseURL)
-  .then(res => res.json())
-  .then(data => {
+    .then((res) => res.json())
+    .then((data) => {
+      products = data.products;
 
-  products = data.products;
-  
-  renderProducts();
-
-  })
-  .catch(error => 
-    console.error('Hubo un error al llamar a la api: ', error)
-  )
-
+      renderProducts();
+    })
+    .catch((error) =>
+      console.error("Hubo un error al llamar a la api: ", error),
+    );
 }
 
-getProducts();  
+getProducts();
 
-function renderProducts(){
+function renderProducts() {
+  const productList = document.getElementById("productList");
 
-  const productList = document.getElementById('productList');
+  productList.innerHTML = "";
 
-  productList.innerHTML = '';
+  products.forEach((product) => {
+    const listItem = document.createElement("li");
 
-  products.forEach(product =>{
-    const listItem = document.createElement('li')
-    
-    listItem.classList.add('productItem')
+    listItem.classList.add("productItem");
 
     listItem.innerHTML = `
       
@@ -69,163 +64,213 @@ function renderProducts(){
 
       `;
 
-  productList.appendChild(listItem)
-
-  })
-
+    productList.appendChild(listItem);
+  });
 }
 
-function postProduct(){
-
-  const productTitleInput = document.getElementById('productTitle');
-  const productPriceInput = document.getElementById('productPrice');
-  const productDescriptionInput = document.getElementById('productDescription');
+function postProduct() {
+  const productTitleInput = document.getElementById("productTitle");
+  const productPriceInput = document.getElementById("productPrice");
+  const productDescriptionInput = document.getElementById("productDescription");
 
   const productTitle = productTitleInput.value;
   const productPrice = productPriceInput.value;
   const productDescription = productDescriptionInput.value;
 
-  if(productTitle.trim() == '' || productPrice.trim() == '' || productDescription == ''){
-    alert('Todos los campos son obligatorios');
+  if (
+    productTitle.trim() == "" ||
+    productPrice.trim() == "" ||
+    productDescription == ""
+  ) {
+    Swal.fire({
+      icon: "warning",
+      text: "Todos los campos son obligatorios",
+    });
     return;
   }
 
-  const exists = products.some(product =>
-    product.title.trim().toLowerCase() === productTitle.trim().toLowerCase()
+  if (productPrice < 0) {
+    Swal.fire({
+      icon: "warning",
+      text: "El precio no puede ser menor que 0",
+    });
+    return;
+  }
+
+  const exists = products.some(
+    (product) =>
+      product.title.trim().toLowerCase() === productTitle.trim().toLowerCase(),
   );
 
-  if(productPrice < 0){
-    alert('El precio no puede ser menor que 0.');
+  if (exists) {
+    Swal.fire({
+      icon: "error",
+      text: "No pueden haber productos con el mismo nombre",
+    });
+
     return;
   }
 
-  if(exists){
-    alert('Ese producto ya existe');
-    return;
-  }
-
-  fetch(baseURL + '/add', {
-    method: 'POST',
+  fetch(baseURL + "/add", {
+    method: "POST",
     headers: {
-      'Content-type': 'application/json; charset=UTF-8',
+      "Content-type": "application/json; charset=UTF-8",
     },
     body: JSON.stringify({
       title: productTitle,
       price: productPrice,
-      description: productDescription
+      description: productDescription,
+    }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      products.unshift(data);
+      renderProducts();
+
+      Swal.fire({
+        icon: "success",
+        text: "Producto creado",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+
+      productTitleInput.value = "";
+      productPriceInput.value = "";
+      productDescriptionInput.value = "";
     })
-  })
-  .then(res => res.json())
-  .then(data =>{
-    products.unshift(data);
-    renderProducts();
-
-    productTitleInput.value = '';
-    productPriceInput.value = '';
-    productDescriptionInput.value = '';
-
-  })
-  .catch(error =>{
-    console.log('Hubo un error al crear el producto: ', error)
-  })
-
+    .catch((error) => {
+      console.log("Hubo un error al crear el producto: ", error);
+    });
 }
 
-function editProduct(productID){
+function editProduct(productID) {
+  const editForm = document.getElementById(`editForm-${productID}`);
 
-  const editForm = document.getElementById(`editForm-${productID}`)
-
-  editForm.style.display = (editForm.style.display == 'none') ? 'block' : 'none'
-
+  editForm.style.display = editForm.style.display == "none" ? "block" : "none";
 }
 
-
-function uploadProduct(productID){
+function uploadProduct(productID) {
   const editTitle = document.getElementById(`editTitle-${productID}`).value;
   const editPrice = document.getElementById(`editPrice-${productID}`).value;
-  const editDescription = document.getElementById(`editDescription-${productID}`).value;
+  const editDescription = document.getElementById(
+    `editDescription-${productID}`,
+  ).value;
 
-
-  if(editTitle.trim() == '' || editPrice.trim() == '' || editDescription == ''){
-    alert('Todos los campos son obligatorios.')
+  if (
+    editTitle.trim() == "" ||
+    editPrice.trim() == "" ||
+    editDescription == ""
+  ) {
+    Swal.fire({
+      icon: "warning",
+      text: "Todos los campos son obligatorios",
+    });
     return;
   }
 
-  if(editPrice < 0){
-    alert('El precio no puede ser menor que 0');
+  if (editPrice < 0) {
+    Swal.fire({
+      icon: "warning",
+      text: "El precio no puede ser menor que 0",
+    });
     return;
   }
 
-  if(productID > 194){
+  const exists = products.some(
+    (product) =>
+      product.title.trim().toLowerCase() === editTitle.trim().toLowerCase() &&
+      product.id !== productID
+  );
 
-    const index = products.findIndex(product => product.id === productID);
+  if (exists) {
+    Swal.fire({
+      icon: "error",
+      text: "No pueden haber productos con el mismo nombre",
+    });
 
-    if(index != -1){
+    return;
+  }
+
+  if (productID > 194) {
+    const index = products.findIndex((product) => product.id === productID);
+
+    if (index != -1) {
       products[index].title = editTitle;
       products[index].price = editPrice;
       products[index].description = editDescription;
 
       renderProducts();
-
-    } 
-
-    return;
-
-  }
-
-  fetch(baseURL + `/${productID}`,{
-    method: 'PUT',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({
-      title: editTitle,
-      price: editPrice,
-      description: editDescription
-    })
-  })
-  .then(res => res.json())
-  .then(data =>{
-    console.log(data)
-    const index = products.findIndex(product => product.id === productID);
-
-    if(index != -1){
-      products[index] = data;
-    } else{
-      alert('Hubo un error al actualizar la información del producto');
-      return;
     }
 
-    renderProducts();
-
-  })
-  .catch(error =>{
-    console.error('Hubo un error al querer actualizar la información del producto: ', error)
-  })
-
-}
-
-
-function deleteProduct(productID){
-
-  if(productID > 194){
-    products = products.filter(product => product.id != productID);
-    renderProducts();
     return;
   }
 
   fetch(baseURL + `/${productID}`, {
-    method: 'DELETE'
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      title: editTitle,
+      price: editPrice,
+      description: editDescription,
+    }),
   })
-  .then(res => {
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      const index = products.findIndex((product) => product.id === productID);
 
-    if(res.ok){
-      products = products.filter(product => product.id != productID);
+      if (index != -1) {
+        products[index] = data;
+      } else {
+        Swal.fire({
+          icon: "error",
+          text: "Hubo un error al actualizar la información del producto",
+        });
+
+        return;
+      }
+
       renderProducts();
-    } else{
-      console.error('Hubo un error al eliminar el producto')
-    }
-  })
-  .catch(error =>{
-    console.log("Hubo un error al eliminar el producto: ", error)
-  })
+    })
+    .catch((error) => {
+      console.error(
+        "Hubo un error al querer actualizar la información del producto: ",
+        error,
+      );
+    });
+}
 
+function deleteProduct(productID) {
+  Swal.fire({
+    text: "¿Eliminar producto?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Sí, eliminar",
+    cancelButtonText: "Cancelar",
+    confirmButtonColor: "#4A2F7A",
+    cancelButtonColor: "#9B59B6",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      if (productID > 194) {
+        products = products.filter((product) => product.id != productID);
+        renderProducts();
+        return;
+      }
+
+      fetch(baseURL + `/${productID}`, {
+        method: "DELETE",
+      })
+        .then((res) => {
+          if (res.ok) {
+            products = products.filter((product) => product.id != productID);
+            renderProducts();
+          } else {
+            console.error("Hubo un error al eliminar el producto");
+          }
+        })
+        .catch((error) => {
+          console.log("Hubo un error al eliminar el producto: ", error);
+        });
+    }
+  });
 }
