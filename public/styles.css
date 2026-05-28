@@ -1,34 +1,32 @@
 body {
 
-  background-color: #394d43;
+  background-color: #F5F0FF;
   font-family: "Elms Sans", sans-serif;
   margin: 0;
 
 }
 
-h1, h2{
-  text-align: center;
-  color: white;
-
-}
-
 h1{
-  background-color: rgb(59, 100, 100);
+  background-color: #2D1B4E;
   padding: 20px;
-    margin-top: 0px;
-    margin-bottom: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+ text-align: center;
+  color: #D4B8E0
 }
 
 h2{
   font-style: italic;
   font-weight: normal;
-  background-color: rgb(34, 50, 50);
+  background-color: #4A2F7A;
   padding: 10px;
   margin-top: 0px;
+  text-align: center;
+  color: #EDE5F5;
 }
 
 button{
-  background-color: rgb(59, 100, 100);
+  background-color: #4A2F7A;
   color: white;
   border: none;
   padding: 10px;
@@ -42,39 +40,40 @@ button{
 }
 
 button:hover{
-  background-color: rgb(34, 50, 50);
+  background-color: #7D3C98;
   transition: background-color 0.3s ease;
 }
 
 label{
-  color: rgb(86, 166, 166);
+  color: #2D1B4E;
   font-size: 18px;
   margin-bottom: 5px;
   font-weight: bold;
 }
 
 input{
+  font-family: "Elms Sans", sans-serif;
   padding: 10px;
   font-size: 16px;
-  border: none;
   border-radius: 10px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   width: 700px;
-  background-color: black;
-  color:darkgrey;
+  background-color: #EDE5F5;
+  color:#2D1B4E;
+  border: 2px solid #9B59B6;
 }
 
 textarea{
   padding: 10px;
   font-size: 16px;
-  border: none;
+  border: 2px solid #9B59B6;
   border-radius: 10px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   width: 700px;
   height: 150px;
   font-family: "Elms Sans", sans-serif;
-  background-color: black;
-  color:darkgrey;
+  background-color: #EDE5F5;
+  color:#2D1B4E;
   max-height: 250px;
 }
 
@@ -106,8 +105,8 @@ ul{
 .productItem{
   display: flex;
   flex-direction: column;
-  background-color: rgb(107, 189, 153);
-  border: 1px solid #000000;
+  background-color: #D4B8E0;
+  border: 2px solid #9B59B6;
   border-radius: 10px;
   padding: 10px;
   margin-top: 20px;
@@ -115,12 +114,21 @@ ul{
   min-width: 700px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   height: fit-content;
+  color: #2D1B4E;
+  transition: background-color 0.4s ease, transform 0.4s ease;
+}
+
+.productItem:hover{
+  background-color: #B89AC8;
+  transform: scale(1.02);
 }
 
 #productList{
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   justify-items: center;
+  margin-left: 15px;
+  margin-right: 15px;
 }
 
 .buttonContainer{
@@ -150,6 +158,22 @@ ul{
 }
 
 .editLabel{
-  color: #394d43;
+  color: #2D1B4E;
   margin-top: 10px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #3d2a52;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #8b5cf6;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #8a5cf6cf;
 }
