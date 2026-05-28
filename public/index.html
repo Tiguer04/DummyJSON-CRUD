@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DummyJSON CRUD</title>
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Elms+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <h1>DummyJSON CRUD</h1>
+  <h2>A friendly tool for CRUD operations</h2>
+
+  <div class="form-container">
+
+    <div class="form-group">
+      <label for="productTitle">Product name: </label>
+      <input type="text" id="productTitle" placeholder="Enter product name">
+    </div>
+
+    <div class="form-group">
+      <label for="productPrice">Product price: </label>
+      <input type="number" id="productPrice" placeholder="Enter product price">
+    </div>
+
+    <div class="form-group">
+      <label for="productDescription">Product description: </label>
+      <textarea id="productDescription" placeholder="Enter product description"></textarea>
+    </div>
+
+    <button id="postButton" onclick=postProduct()>POST PRODUCT</button>
+
+  </div>
+
+  <ul id="productList"></ul>
+  
+  <script src="script.js"></script>
+
+</body>
+</html>
