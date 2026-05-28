@@ -60,7 +60,7 @@ function renderProducts(){
           <label for="editDescription" class="editLabel">Description: </label>
           <textarea id="editDescription-${product.id}" class="editTextarea">${product.description}</textarea>
         </div>
-          
+
           <div class="buttonContainer">
             <button onclick="uploadProduct(${product.id})">Upload</button>
           </div>
@@ -87,6 +87,20 @@ function postProduct(){
 
   if(productTitle.trim() == '' || productPrice.trim() == '' || productDescription == ''){
     alert('Todos los campos son obligatorios');
+    return;
+  }
+
+  const exists = products.some(product =>
+    product.title.trim().toLowerCase() === productTitle.trim().toLowerCase()
+  );
+
+  if(productPrice < 0){
+    alert('El precio no puede ser menor que 0.');
+    return;
+  }
+
+  if(exists){
+    alert('Ese producto ya existe');
     return;
   }
 
@@ -131,6 +145,34 @@ function uploadProduct(productID){
   const editPrice = document.getElementById(`editPrice-${productID}`).value;
   const editDescription = document.getElementById(`editDescription-${productID}`).value;
 
+
+  if(editTitle.trim() == '' || editPrice.trim() == '' || editDescription == ''){
+    alert('Todos los campos son obligatorios.')
+    return;
+  }
+
+  if(editPrice < 0){
+    alert('El precio no puede ser menor que 0');
+    return;
+  }
+
+  if(productID > 194){
+
+    const index = products.findIndex(product => product.id === productID);
+
+    if(index != -1){
+      products[index].title = editTitle;
+      products[index].price = editPrice;
+      products[index].description = editDescription;
+
+      renderProducts();
+
+    } 
+
+    return;
+
+  }
+
   fetch(baseURL + `/${productID}`,{
     method: 'PUT',
     headers: {'Content-Type': 'application/json'},
@@ -163,6 +205,12 @@ function uploadProduct(productID){
 
 
 function deleteProduct(productID){
+
+  if(productID > 194){
+    products = products.filter(product => product.id != productID);
+    renderProducts();
+    return;
+  }
 
   fetch(baseURL + `/${productID}`, {
     method: 'DELETE'
