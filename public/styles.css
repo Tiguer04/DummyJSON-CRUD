@@ -6,6 +6,11 @@ body {
 
 }
 
+body.swal2-shown {
+  overflow: hidden !important;
+  padding-right: 0 !important;
+}
+
 h1{
   background-color: #2D1B4E;
   padding: 20px;
