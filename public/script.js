@@ -24,7 +24,7 @@ function getMoreProducts(){
   if(productsLimit > 194){
      Swal.fire({
       icon: "info",
-      text: "No hay más productos por mostrar",
+      text: "There aren't more products to show",
     });
     return;
   }
@@ -113,7 +113,7 @@ function postProduct() {
   ) {
     Swal.fire({
       icon: "warning",
-      text: "Todos los campos son obligatorios",
+      text: "All fields are required",
     });
     return;
   }
@@ -121,7 +121,7 @@ function postProduct() {
   if (productPrice < 0) {
     Swal.fire({
       icon: "warning",
-      text: "El precio no puede ser menor que 0",
+      text: "The price cannot be less than 0",
     });
     return;
   }
@@ -134,7 +134,7 @@ function postProduct() {
   if (exists) {
     Swal.fire({
       icon: "error",
-      text: "No pueden haber productos con el mismo nombre",
+      text: "There cannot be products with the same name",
     });
 
     return;
@@ -158,7 +158,7 @@ function postProduct() {
 
       Swal.fire({
         icon: "success",
-        text: "Producto creado",
+        text: "Product created successfully",
         timer: 2000,
         showConfirmButton: false,
       });
@@ -192,7 +192,7 @@ function uploadProduct(productID) {
   ) {
     Swal.fire({
       icon: "warning",
-      text: "Todos los campos son obligatorios",
+      text: "All fields are required",
     });
     return;
   }
@@ -200,7 +200,7 @@ function uploadProduct(productID) {
   if (editPrice < 0) {
     Swal.fire({
       icon: "warning",
-      text: "El precio no puede ser menor que 0",
+      text: "The price cannot be less than 0",
     });
     return;
   }
@@ -214,7 +214,7 @@ function uploadProduct(productID) {
   if (exists) {
     Swal.fire({
       icon: "error",
-      text: "No pueden haber productos con el mismo nombre",
+      text: "There cannot be products with the same name",
     });
 
     return;
@@ -253,7 +253,7 @@ function uploadProduct(productID) {
       } else {
         Swal.fire({
           icon: "error",
-          text: "Hubo un error al actualizar la información del producto",
+          text: "There was an error updating the product information",
         });
 
         return;
@@ -271,11 +271,11 @@ function uploadProduct(productID) {
 
 function deleteProduct(productID) {
   Swal.fire({
-    text: "¿Eliminar producto?",
+    text: "Do you want to delete the product?",
     icon: "warning",
     showCancelButton: true,
-    confirmButtonText: "Sí, eliminar",
-    cancelButtonText: "Cancelar",
+    confirmButtonText: "Yes, delete",
+    cancelButtonText: "Cancel",
     confirmButtonColor: "#4A2F7A",
     cancelButtonColor: "#9B59B6",
   }).then((result) => {
