@@ -2,6 +2,8 @@ const baseURL = "https://dummyjson.com/products";
 
 let products = [];
 
+let productsLimit = 30;
+
 function getProducts() {
   fetch(baseURL)
     .then((res) => res.json())
@@ -16,6 +18,33 @@ function getProducts() {
 }
 
 getProducts();
+
+function getMoreProducts(){
+
+  if(productsLimit > 194){
+     Swal.fire({
+      icon: "info",
+      text: "No hay más productos por mostrar",
+    });
+    return;
+  }
+  
+  const limit = 16;
+
+  fetch(`${baseURL}?limit=${limit}&skip=${productsLimit}`)
+  .then((res) => res.json())
+  .then((data) =>{
+    products.push(...data.products)
+
+    renderProducts();
+  })
+  .catch((error) =>
+      console.error("Hubo un error al llamar a la apiX: ", error),
+  );
+
+  productsLimit+=limit;
+
+}
 
 function renderProducts() {
   const productList = document.getElementById("productList");
