@@ -272,3 +272,100 @@ textarea{
 }
 
 }
+
+
+@media(max-width: 480px){
+
+.buttonContainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 10px;
+}
+
+input{
+  font-family: "Elms Sans", sans-serif;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  width: 92%;
+  max-width: 420px;
+  min-width: 200px;
+  background-color: #EDE5F5;
+  color:#2D1B4E;
+  border: 2px solid #9B59B6;
+}
+
+textarea{
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #9B59B6;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  width: 92%;
+  max-width: 420px;
+  min-width: 200px;
+  height: 150px;
+  font-family: "Elms Sans", sans-serif;
+  background-color: #EDE5F5;
+  color:#2D1B4E;
+  max-height: 250px;
+}
+
+.form-group{
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.form-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+  margin-left: 5px;
+  width: 96%;
+}
+
+#productDescription{
+  max-width: 420px;
+  min-width: 200px;
+}
+
+
+#productList{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  justify-items: center;
+  width: 100%;
+}
+
+  .productItem{
+  display: flex;
+  flex-direction: column;
+  background-color: #D4B8E0;
+  border: 2px solid #9B59B6;
+  border-radius: 10px;
+  padding: 10px;
+  margin-top: 20px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  height: fit-content;
+  color: #2D1B4E;
+  transition: background-color 0.4s ease, transform 0.4s ease;
+  width: 90%;
+}
+
+.editInput{
+  width: 95%;
+}
+
+.editTextarea{
+  width: 95%;
+}
+
+}
