@@ -86,7 +86,7 @@ function renderProducts() {
         </div>
 
           <div class="buttonContainer">
-            <button onclick="uploadProduct(${product.id})">Upload</button>
+            <button onclick="updateProduct(${product.id})">Upload</button>
           </div>
 
         </div>
@@ -174,11 +174,16 @@ function postProduct() {
 
 function editProduct(productID) {
   const editForm = document.getElementById(`editForm-${productID}`);
+  
+ if(editForm.style.display == ""){ 
+ editForm.style.display = "none"; 
+ }
 
   editForm.style.display = editForm.style.display == "none" ? "block" : "none";
+
 }
 
-function uploadProduct(productID) {
+function updateProduct(productID) {
   const editTitle = document.getElementById(`editTitle-${productID}`).value;
   const editPrice = document.getElementById(`editPrice-${productID}`).value;
   const editDescription = document.getElementById(
