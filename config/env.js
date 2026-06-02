@@ -5,9 +5,10 @@ dotenv.config();
 export const envs = {
     PORT: process.env.PORT || 3000,
     PUBLIC_PATH: process.env.PUBLIC_PATH || 'public',
-    BDUSER: process.env.BDUSER || 'root',
-    BDPASSWORD: process.env.BDPASSWORD || 'root',
-    BDHOST: process.env.BDHOST || 'db',
-    BDDATABASE: process.env.BDDATABASE || 'products_db',
-    BDPORT: process.env.BDPORT || 3306
+    MYSQL_USER: process.env.MYSQL_USER || 'root',
+    MYSQL_USER_PASSWORD: process.env.MYSQL_USER_PASSWORD || 'root',
+    MYSQL_ROOT_PASSWORD: process.env.MYSQL_ROOT_PASSWORD || 'root',
+    MYSQL_HOST: process.env.MYSQL_HOST || 'db',
+    MYSQL_DATABASE: process.env.MYSQL_DATABASE || 'products_db',
+    MYSQL_PORT: process.env.MYSQL_PORT || 3306
 }
