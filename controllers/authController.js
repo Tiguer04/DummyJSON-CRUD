@@ -37,6 +37,13 @@ export const register = async (req, res) => {
 
     res.json({ message: "User registered successfully", user: user[0] });
   } catch (error) {
+
+    if(error.code === 'ER_DUP_ENTRY' && error.message.includes('username')){
+      return res.status(400).json({ message: "Username is already in use" });
+    } else if(error.code === 'ER_DUP_ENTRY' && error.message.includes('email')){
+      return res.status(400).json({ message: "Email is already in use" });
+    }
+
     console.error(error);
     res.status(500).json({ message: "Error registering user" });
   }
