@@ -15,13 +15,13 @@ export const startServer = (options) => {
 
   app.use('/auth', authRoutes);
   
-//  app.get(/.*/, (req, res) => {
-//    const indexPath = path.join(public_path, "index.html");
-//   res.sendFile(indexPath);
-//  });
+  app.get('/', (req, res) =>{
+    const loginPath = path.resolve(public_path, "login.html");
+    res.sendFile(loginPath);
+  })
 
-    app.listen(port, () => {
-      console.log(`Server is running on port ${port}`);
-    });
+  app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+  });
 
 };
