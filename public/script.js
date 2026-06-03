@@ -1,3 +1,35 @@
+const token = localStorage.getItem("mi_jwt");
+
+if (!token) {
+  window.location.href = "/login.html";
+} else{
+  validateToken(token);
+}
+
+async function validateToken(token) {
+  try {
+    const respuesta = await fetch('http://localhost:3000/auth/verify', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}` // Le enviamos el token a tu checkToken
+      }
+    });
+
+    if (respuesta.ok) {
+      // ¡El backend dijo que es válido (status 200)! 
+      // Ahora sí, cargamos DummyJSON con confianza.
+      getProducts(); 
+    } else {
+      // El token era falso, fue manipulado o ya expiró (status 401).
+      localStorage.removeItem("mi_jwt"); // Lo borramos por tramposo
+      window.location.href = "/login.html"; // Lo pateamos al login
+    }
+  } catch (error) {
+    console.error("Error validando el token:", error);
+  }
+}
+
+
 const baseURL = "https://dummyjson.com/products";
 
 let products = [];
@@ -16,8 +48,6 @@ function getProducts() {
       console.error("Hubo un error al llamar a la api: ", error),
     );
 }
-
-getProducts();
 
 function getMoreProducts(){
 
