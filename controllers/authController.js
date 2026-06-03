@@ -3,29 +3,41 @@ import { pool } from "../config/db.js";
 import { hashPassword } from "../services/password.service.js";
 
 export const register = async (req, res) => {
+  const { username, email, password } = req.body;
 
-const { username, email, password } = req.body;
+  if (!username || !email || !password) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
 
-if(!username || !email || !password){
-  return res.status(400).json({message: 'All fields are required'});
-}
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-const hashedPassword = await hashPassword(password);
+  const passwordRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&\-_\.])[A-Za-z\d@$!%*?&\-_\.]{8,}$/;
 
-try{
+  if(!emailRegex.test(email)){
+    return res.status(400).json({ message: "Invalid email format" });
+  }
 
-  const [rows] = await pool.query('INSERT INTO users (username, email, password) VALUES (?, ?, ?)', [username, email, hashedPassword]);
+  if(!passwordRegex.test(password)){
+    return res.status(400).json({ message: "Password must be at least 8 characters long and include uppercase, lowercase, number, and special character" });
+  }
 
-  const [user] = await pool.query('SELECT id, username, email FROM users WHERE id = ?', [rows.insertId]);
+  const hashedPassword = await hashPassword(password);
 
-  res.json({message: 'User registered successfully', user: user[0]});
+  try {
+    const [rows] = await pool.query(
+      "INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
+      [username, email, hashedPassword],
+    );
 
-}catch(error){
+    const [user] = await pool.query(
+      "SELECT id, username, email FROM users WHERE id = ?",
+      [rows.insertId],
+    );
 
-  console.error(error);
-  res.status(500).json({message: 'Error registering user'})
-
-}
-
-
-}
+    res.json({ message: "User registered successfully", user: user[0] });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error registering user" });
+  }
+};
