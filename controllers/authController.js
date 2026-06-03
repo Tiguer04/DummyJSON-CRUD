@@ -1,0 +1,31 @@
+import express from "express";
+import { pool } from "../config/db.js";
+import { hashPassword } from "../services/password.service.js";
+
+export const register = async (req, res) => {
+
+const { username, email, password } = req.body;
+
+if(!username || !email || !password){
+  return res.status(400).json({message: 'All fields are required'});
+}
+
+const hashedPassword = await hashPassword(password);
+
+try{
+
+  const [rows] = await pool.query('INSERT INTO users (username, email, password) VALUES (?, ?, ?)', [username, email, hashedPassword]);
+
+  const [user] = await pool.query('SELECT id, username, email FROM users WHERE id = ?', [rows.insertId]);
+
+  res.json({message: 'User registered successfully', user: user[0]});
+
+}catch(error){
+
+  console.error(error);
+  res.status(500).json({message: 'Error registering user'})
+
+}
+
+
+}
