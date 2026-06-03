@@ -1,7 +1,7 @@
 const token = localStorage.getItem("mi_jwt");
 
 if (!token) {
-  window.location.href = "/login.html";
+  window.location.href = "/";
 } else{
   validateToken(token);
 }
