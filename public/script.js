@@ -1,4 +1,4 @@
-const token = localStorage.getItem("mi_jwt");
+const token = localStorage.getItem("my_jwt");
 
 if (!token) {
   window.location.href = "/";
@@ -11,18 +11,15 @@ async function validateToken(token) {
     const respuesta = await fetch('http://localhost:3000/auth/verify', {
       method: 'GET',
       headers: {
-        'Authorization': `Bearer ${token}` // Le enviamos el token a tu checkToken
+        'Authorization': `Bearer ${token}`
       }
     });
 
     if (respuesta.ok) {
-      // ¡El backend dijo que es válido (status 200)! 
-      // Ahora sí, cargamos DummyJSON con confianza.
       getProducts(); 
     } else {
-      // El token era falso, fue manipulado o ya expiró (status 401).
-      localStorage.removeItem("mi_jwt"); // Lo borramos por tramposo
-      window.location.href = "/login.html"; // Lo pateamos al login
+      localStorage.removeItem("my_jwt");
+      window.location.href = "/login.html";
     }
   } catch (error) {
     console.error("Error validando el token:", error);
