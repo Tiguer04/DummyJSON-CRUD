@@ -95,20 +95,26 @@ function renderProducts() {
 
         <div id="editForm-${product.id}" class="editForm">
 
-        <div class="form-group">
-          <label for="editTitle" class="editLabel">Title: </label>
+        <div class="edit-form-group">
+          <div class="form-group-label">
+            <label for="editTitle" class="editLabel">Title: </label>
+          </div>
           <input type="text" id="editTitle-${product.id}" value="${product.title}"
           class="editInput">
         </div>
 
-        <div class="form-group">
-          <label for="editPrice" class="editLabel">Price: </label>
+        <div class="edit-form-group">
+          <div class="form-group-label">
+            <label for="editPrice" class="editLabel">Price: </label>
+          </div>
           <input type="number" id="editPrice-${product.id}" value="${product.price}"
           class="editInput">
         </div>
 
-        <div class="form-group">  
-          <label for="editDescription" class="editLabel">Description: </label>
+        <div class="edit-form-group">  
+          <div class="form-group-label">
+            <label for="editDescription" class="editLabel">Description: </label>
+          </div>
           <textarea id="editDescription-${product.id}" class="editTextarea">${product.description}</textarea>
         </div>
 
@@ -206,7 +212,24 @@ function editProduct(productID) {
  editForm.style.display = "none"; 
  }
 
-  editForm.style.display = editForm.style.display == "none" ? "block" : "none";
+ if(editForm.style.display == "none"){
+  
+  editForm.style.display = "flex";
+
+  editForm.classList.remove("editForm");
+  
+  editForm.classList.add("showEditForm");
+
+ } else{
+
+  editForm.style.display = "none";
+
+  editForm.classList.remove("showEditForm");
+
+  editForm.classList.add("editForm");
+ }
+
+  //editForm.style.display = editForm.style.display == "none" ? "block" : "none";
 
 }
 
