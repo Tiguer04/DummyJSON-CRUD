@@ -67,6 +67,17 @@ input{
   color:#2D1B4E;
   border: 2px solid #9B59B6;
   box-sizing: border-box;
+  transition: border-color 0.6s ease, background-color 0.6s ease;
+}
+
+input:hover{
+  border-color: #7D3C98;
+  background-color: #D4B8E0;
+}
+
+.inputhovered{
+  border-color: #7D3C98;
+  background-color: #D4B8E0;
 }
 
 textarea{
@@ -82,12 +93,24 @@ textarea{
   color:#2D1B4E;
   max-height: 250px;
   box-sizing: border-box;
+  transition: border-color 0.6s ease, background-color 0.6s ease;
+}
+
+textarea:hover{
+  border-color: #7D3C98;
+  background-color: #D4B8E0;
 }
 
 ul{
     list-style: none;
     padding: 0;
     width: 100%;
+}
+
+a{
+  text-decoration: none;
+  color: #4A2F7A;
+  font-weight: bold;
 }
 
 #productDescription{
@@ -388,4 +411,59 @@ textarea{
   width: 90%;
 }
 
+}
+
+.container-auth{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+  min-height: 100vh;
+}
+
+.form-container-auth{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+  margin-left: 15px;
+  margin-right: 15px;
+  border-radius: 10px;
+  width: fit-content;
+  background-color: #EDE5F5;
+  box-shadow: 0px 8px 24px rgba(45, 27, 78, 0.2);
+  transition: all 0.3s ease;
+}
+
+.form-container-auth:hover{
+  transform: scale(1.02);
+  box-shadow: 0px 12px 36px rgba(45, 27, 78, 0.3);
+}
+
+.form-auth-title{
+  background-color: #2D1B4E;
+  padding: 20px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  text-align: center;
+  color: #D4B8E0;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.form-auth-subtitle{
+  font-style: italic;
+  font-weight: normal;
+  background-color: #4A2F7A;
+  padding: 10px;
+  margin-top: 0px;
+  text-align: center;
+  color: #EDE5F5;
+}
+
+.form-auth-link{
+  padding-top: 20px;
+  text-align: center;
 }
