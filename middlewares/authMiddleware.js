@@ -6,7 +6,7 @@ export const checkToken = (req, res, next) =>{
   const authHeader = req.headers.authorization;
 
   if(!authHeader || !authHeader.startsWith('Bearer ')){
-    return res.status(401).json({ message: 'Unauthorized 1' });
+    return res.status(401).json({ message: 'You are not authorized' });
   }
 
   const token = authHeader.split(' ')[1];
@@ -19,7 +19,7 @@ export const checkToken = (req, res, next) =>{
     next();
 
   } catch (error) {
-    return res.status(401).json({ message: 'Unauthorized 2' });
+    return res.status(401).json({ message: 'You are not authorized' });
   }
 
 }
