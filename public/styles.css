@@ -515,7 +515,8 @@ textarea{
 }
 
 #login-button{
-  width: 95%;
+  max-width: 700px;
+  width: 100%;
 }
 
 .showEditForm{
