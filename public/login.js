@@ -2,6 +2,7 @@
 const loginButton = document.getElementById('login-button');
 
 loginButton.addEventListener('click', () => {
+
   const emailInput = document.getElementById('email');
   const passwordInput = document.getElementById('password');
 
@@ -10,6 +11,22 @@ loginButton.addEventListener('click', () => {
 
   login(email, password);
 });
+
+document.addEventListener('keydown', (event) =>{
+
+  if(event.key == 'Enter'){
+    
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+
+    const email = emailInput.value;
+    const password = passwordInput.value;
+
+    login(email, password);
+
+  }
+
+})
 
 const emailInput = document.getElementById('email');
 const passwordInput = document.getElementById('password');
