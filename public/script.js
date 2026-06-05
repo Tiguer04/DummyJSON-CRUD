@@ -29,6 +29,44 @@ async function validateToken(token) {
 
 const baseURL = "https://dummyjson.com/products";
 
+  const productTitleInput = document.getElementById("productTitle");
+  const productPriceInput = document.getElementById("productPrice");
+  const productDescriptionInput = document.getElementById("productDescription");
+
+  productTitleInput.addEventListener('click', () =>{
+
+    productTitleInput.classList.add('inputhovered');
+    productPriceInput.classList.remove('inputhovered');
+    productDescriptionInput.classList.remove('inputhovered');
+
+  })
+
+  productPriceInput.addEventListener('click', () =>{
+
+    productPriceInput.classList.add('inputhovered');
+    productTitleInput.classList.remove('inputhovered');
+    productDescriptionInput.classList.remove('inputhovered');
+
+  })
+
+  productDescriptionInput.addEventListener('click', () =>{
+
+    productDescriptionInput.classList.add('inputhovered');
+    productTitleInput.classList.remove('inputhovered');
+    productPriceInput.classList.remove('inputhovered');
+
+  })
+
+  document.addEventListener('click', (event) =>{
+    if(event.target !== productTitleInput && event.target !== productPriceInput && event.target !== productDescriptionInput){
+
+      productTitleInput.classList.remove('inputhovered');
+      productPriceInput.classList.remove('inputhovered');
+      productDescriptionInput.classList.remove('inputhovered');
+
+    }
+  })
+
 let products = [];
 
 let productsLimit = 30;
@@ -131,9 +169,6 @@ function renderProducts() {
 }
 
 function postProduct() {
-  const productTitleInput = document.getElementById("productTitle");
-  const productPriceInput = document.getElementById("productPrice");
-  const productDescriptionInput = document.getElementById("productDescription");
 
   const productTitle = productTitleInput.value;
   const productPrice = productPriceInput.value;
