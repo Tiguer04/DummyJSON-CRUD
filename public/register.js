@@ -1,74 +1,79 @@
 
-const loginButton = document.getElementById('login-button');
+const registerButton = document.getElementById('login-button');
 
-loginButton.addEventListener('click', () => {
+registerButton.addEventListener('click', () => {
 
+  const usernameInput = document.getElementById('username');
   const emailInput = document.getElementById('email');
   const passwordInput = document.getElementById('password');
 
+  const username = usernameInput.value;
   const email = emailInput.value;
   const password = passwordInput.value;
 
-  login(email, password);
+  register(username, email, password);
 });
 
 document.addEventListener('keydown', (event) =>{
 
   if(event.key == 'Enter'){
     
+    const usernameInput = document.getElementById('username');
     const emailInput = document.getElementById('email');
     const passwordInput = document.getElementById('password');
 
+    const username = usernameInput.value;
     const email = emailInput.value;
     const password = passwordInput.value;
 
-    login(email, password);
+    register(username, email, password);
 
   }
 
 })
 
+const usernameInput = document.getElementById('username');
 const emailInput = document.getElementById('email');
 const passwordInput = document.getElementById('password');
 
+usernameInput.addEventListener('click', () =>{
+  usernameInput.classList.add('inputhovered');
+  emailInput.classList.remove('inputhovered');
+  passwordInput.classList.remove('inputhovered');
+});
+
 emailInput.addEventListener('click', () =>{
   emailInput.classList.add('inputhovered');
+  usernameInput.classList.remove('inputhovered');
   passwordInput.classList.remove('inputhovered');
 });
 
 passwordInput.addEventListener('click', () =>{
   passwordInput.classList.add('inputhovered');
+  usernameInput.classList.remove('inputhovered');
   emailInput.classList.remove('inputhovered');
 });
 
 document.addEventListener('click', (event) => {
-
-  if (event.target !== emailInput && event.target !== passwordInput) {
+  if (event.target !== emailInput && event.target !== passwordInput && event.target !== usernameInput) {
+    usernameInput.classList.remove('inputhovered');
     emailInput.classList.remove('inputhovered');
     passwordInput.classList.remove('inputhovered');
   }
-
-  if(event.target.className == "form-auth-link"){
-    emailInput.value = '';
-    passwordInput.value = '';
-  }
-
 });
 
-async function login(email, password) {
+async function register(username, email, password) {
 
-  const respuesta = await fetch('http://localhost:3000/auth/login', {
+  const respuesta = await fetch('http://localhost:3000/auth/register', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password })
+    body: JSON.stringify({ username, email, password })
   });
 
   const data = await respuesta.json();
 
   if (respuesta.ok) {
 
-    localStorage.setItem('my_jwt', data.token);
-    
     Swal.mixin({
       toast: true,
       position: "top-end",
@@ -81,14 +86,15 @@ async function login(email, password) {
     }
     }).fire({
       icon: "success",
-      text: "You're in! Redirecting..."
+      text: "Registered successfully"
     });
 
     setTimeout(() =>{
-      window.location.href = '/index.html';
+      window.location.href = '/login.html';
     }, 3000)
 
   } else {
+    usernameInput.value = '';
     emailInput.value = '';
     passwordInput.value = '';
     
