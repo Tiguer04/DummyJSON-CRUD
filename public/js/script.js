@@ -8,7 +8,7 @@ if (!token) {
 
 async function validateToken(token) {
   try {
-    const respuesta = await fetch('http://localhost:3000/auth/verify', {
+    const respuesta = await fetch('https://dummyjson-crud.onrender.com/auth/verify', {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`

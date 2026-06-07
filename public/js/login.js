@@ -57,7 +57,7 @@ document.addEventListener('click', (event) => {
 
 async function login(email, password) {
 
-  const respuesta = await fetch('http://localhost:3000/auth/login', {
+  const respuesta = await fetch('https://dummyjson-crud.onrender.com/auth/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password })
