@@ -62,6 +62,20 @@ document.addEventListener('click', (event) => {
   }
 });
 
+const eye = document.getElementById('eye');
+
+eye.addEventListener('click', () =>{
+
+  if(eye.src.includes('eye-solid')){
+    eye.src = './images/eye-slash-solid.png';
+    passwordInput.type = 'text';
+  }else{
+    eye.src = './images/eye-solid.png';
+    passwordInput.type = 'password';
+  }
+
+})
+
 async function register(username, email, password) {
 
   const respuesta = await fetch('https://dummyjson-crud.onrender.com/auth/register', {
