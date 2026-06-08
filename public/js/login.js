@@ -77,6 +77,13 @@ async function login(email, password) {
     body: JSON.stringify({ email, password })
   });
 
+/* --> Para pruebas con Docker
+  const respuesta = await fetch('http://localhost:3000/auth/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password })
+  });
+*/
   const data = await respuesta.json();
 
   if (respuesta.ok) {
@@ -102,10 +109,16 @@ async function login(email, password) {
       window.location.href = '/index.html';
     }, 3000)
 
-  } else {
-    emailInput.value = '';
+  } else if(data.message.startsWith("Invalid")){
     passwordInput.value = '';
-    
+
+    Swal.fire({
+      icon: "warning",
+      text: data.message,
+    });
+
+  }else {
+
     Swal.fire({
       icon: "warning",
       text: data.message,

@@ -84,6 +84,14 @@ async function register(username, email, password) {
     body: JSON.stringify({ username, email, password })
   });
 
+  /* --> Para pruebas con Docker
+  const respuesta = await fetch('http://localhost:3000/auth/register', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, email, password })
+  });
+  */
+
   const data = await respuesta.json();
 
   if (respuesta.ok) {
@@ -107,10 +115,31 @@ async function register(username, email, password) {
       window.location.href = '/login.html';
     }, 3000)
 
-  } else {
+  } else if(data.message.startsWith("Username")){
     usernameInput.value = '';
-    emailInput.value = '';
+
+    Swal.fire({
+      icon: "warning",
+      text: data.message,
+    });
+
+  } else if(data.message.startsWith("Password")){
     passwordInput.value = '';
+
+    Swal.fire({
+      icon: "warning",
+      text: data.message,
+    });
+
+  } else if(data.message.startsWith("Invalid") || data.message.startsWith("Email")){
+    emailInput.value = '';     
+
+    Swal.fire({
+      icon: "warning",
+      text: data.message,
+    });
+
+  } else {
     
     Swal.fire({
       icon: "warning",

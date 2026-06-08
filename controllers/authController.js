@@ -64,7 +64,7 @@ export const login = async (req, res) => {
     );
 
     if(rows.length === 0){
-      return res.status(404).json({ message: "Invalid email or password. No user found" });
+      return res.status(404).json({ message: "No user found" });
     }
 
     const isMatch = await comparePassword(password, rows[0].password);
