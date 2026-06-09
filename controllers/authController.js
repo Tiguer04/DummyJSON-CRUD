@@ -3,16 +3,27 @@ import { hashPassword, comparePassword } from "../services/password.service.js";
 import { generateToken } from "../services/auth.service.js";
 
 export const register = async (req, res) => {
-  const { username, email, password } = req.body;
+  let { username, email, password } = req.body;
+
+  username = username.trim();
+  email = email.trim();
+  password = password.trim();
 
   if (!username || !email || !password) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
+  const usernameRegex = /^[a-zA-Z0-9_-]{3,20}$/;
+
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
   const passwordRegex =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&\-_\.])[A-Za-z\d@$!%*?&\-_\.]{8,}$/;
+
+
+  if(!usernameRegex.test(username)){
+    return res.status(400).json({ message: "Username can only contain letters, numbers, underscores and hyphens (3-20 characters)" });
+  }
 
   if(!emailRegex.test(email)){
     return res.status(400).json({ message: "Invalid email format" });
