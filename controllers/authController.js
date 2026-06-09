@@ -53,15 +53,32 @@ export const login = async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return res.status(400).json({ message: "Email and password are required" });
+    return res.status(400).json({ message: "Email or username and password are required" });
   }
+
+  const username = !email.includes('@') ? email : undefined;
+
+  let mensaje = username ? 'username' : 'email';
 
   try{
 
-    const [rows] = await pool.query(
+    let rows;
+  
+    if(username){
+
+    [rows] = await pool.query(
+      "SELECT id, username, email, password FROM users WHERE username = ?",
+      [username],
+    );
+
+    } else{
+
+    [rows] = await pool.query(
       "SELECT id, username, email, password FROM users WHERE email = ?",
       [email],
     );
+
+  }
 
     if(rows.length === 0){
       return res.status(404).json({ message: "No user found" });
@@ -70,7 +87,7 @@ export const login = async (req, res) => {
     const isMatch = await comparePassword(password, rows[0].password);
 
     if (!isMatch) {
-      return res.status(401).json({ message: "Invalid email or password" });
+      return res.status(401).json({ message: `Invalid ${mensaje} or password` });
     }
 
     const token = generateToken(rows[0]);

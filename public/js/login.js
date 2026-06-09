@@ -76,14 +76,16 @@ async function login(email, password) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password })
   });
+  
+/*
+ --> Para pruebas con Docker
 
-/* --> Para pruebas con Docker
   const respuesta = await fetch('http://localhost:3000/auth/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password })
   });
-*/
+ */
   const data = await respuesta.json();
 
   if (respuesta.ok) {

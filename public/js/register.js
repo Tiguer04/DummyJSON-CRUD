@@ -83,14 +83,16 @@ async function register(username, email, password) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ username, email, password })
   });
+  
+  /*
+ --> Para pruebas con Docker
 
-  /* --> Para pruebas con Docker
   const respuesta = await fetch('http://localhost:3000/auth/register', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ username, email, password })
   });
-  */
+   */
 
   const data = await respuesta.json();
 

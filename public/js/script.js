@@ -15,16 +15,17 @@ async function validateToken(token) {
         'Authorization': `Bearer ${token}`
       }
     });
-  
-    /* --> Para pruebas con Docker
-    
+
+    /* 
+    --> Para pruebas con Docker
+
     const respuesta = await fetch('http://localhost:3000/auth/verify', {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`
       }
     });
-    */
+  */  
 
     if (respuesta.ok) {
       getProducts(); 
