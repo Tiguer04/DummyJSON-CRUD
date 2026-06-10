@@ -15,6 +15,7 @@ A friendly tool for CRUD operations with DummyJSON.
 - **Bcrypt** — password hashing and verification
 - **SweetAlert2** — user-friendly alert dialogs
 - **Docker** — containerization of the backend and database
+- **Responsive Design** — media queries for smaller screen support
 
 ---
 
