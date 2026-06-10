@@ -123,6 +123,10 @@ a{
   user-select: none;
 }
 
+a:hover{
+  color: #7D3C98;
+}
+
 #productDescription{
   max-width: 700px;
   min-height: 150px;
