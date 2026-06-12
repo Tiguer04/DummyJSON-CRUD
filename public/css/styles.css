@@ -201,8 +201,9 @@ a:hover{
 
 #postButton{
   max-width: fit-content;
-  padding: 20px;
+  padding: 10px;
   border-radius: 10px;
+  margin-bottom: 20px;
 }
 
 .editForm{
@@ -545,7 +546,7 @@ textarea{
   width: 100%;
 }
 
-.input-password-container{
+.icon-input-container{
   display: flex;
   justify-content: center;
   flex-direction: row;
@@ -557,11 +558,12 @@ textarea{
   gap: 10px;
 }
 
-#password{
+#password, #keywordInput{
   width: 650px;
 }
 
-.eye-container{
+
+.icon-container{
   display: flex;
   justify-content: center;
   align-items: center;
@@ -575,11 +577,11 @@ textarea{
   transition: background-color 0.6s ease;
 }
 
-.eye{
+.icon{
   width: 30px;
   cursor: url('../images/cursor-pointer.png'), auto;
 }
 
-.eye-container:hover{
+.icon-container:hover{
   background-color: #D4B8E0;
 }
