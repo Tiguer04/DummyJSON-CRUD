@@ -18,15 +18,13 @@ async function validateToken(token) {
     
     /* 
     --> Para pruebas con Docker
-
-
     const respuesta = await fetch('http://localhost:3000/auth/verify', {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`
       }
     });
-  */  
+  */
 
     if (respuesta.ok) {
       getProducts(); 
@@ -87,6 +85,8 @@ const baseURL = "https://dummyjson.com/products";
   searchInput.addEventListener('keydown', (event) =>{
    
     if(event.key === "Enter"){
+
+      event.preventDefault();
 
       const keyword = searchInput.value;
     
@@ -473,17 +473,20 @@ function searchByKeyword(keyword){
     return;
   }
 
-   const matchProducts = allProducts.filter(p =>{
+  const matchProducts = allProducts.filter(p =>{
      return p.title.toLowerCase().includes(keyword.toLowerCase()) ||
      p.description.toLowerCase().includes(keyword.toLowerCase())
   })
 
   if(matchProducts.length == 0){
-    extraContentContainer.style.marginTop = '48px';
+    Swal.fire({
+          icon: "info",
+          text: "There are no products with those terms",
+        });
+
   } else{
     extraContentContainer.style.marginTop = '30px';
+    renderProducts(matchProducts);
   }
-
-  renderProducts(matchProducts);
 
 }
