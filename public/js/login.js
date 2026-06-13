@@ -70,6 +70,7 @@ eye.addEventListener('click', () =>{
 })
 
 async function login(email, password) {
+  
 
   const respuesta = await fetch('https://dummyjson-crud.onrender.com/auth/login', {
     method: 'POST',

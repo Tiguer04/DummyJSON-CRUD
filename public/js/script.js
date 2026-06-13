@@ -6,6 +6,7 @@ if (!token) {
   validateToken(token);
 }
 
+
 async function validateToken(token) {
   try {
 
@@ -15,9 +16,10 @@ async function validateToken(token) {
         'Authorization': `Bearer ${token}`
       }
     });
-
+    
     /* 
     --> Para pruebas con Docker
+
 
     const respuesta = await fetch('http://localhost:3000/auth/verify', {
       method: 'GET',
@@ -38,18 +40,21 @@ async function validateToken(token) {
   }
 }
 
-
 const baseURL = "https://dummyjson.com/products";
 
   const productTitleInput = document.getElementById("productTitle");
   const productPriceInput = document.getElementById("productPrice");
   const productDescriptionInput = document.getElementById("productDescription");
+  const searchInput = document.getElementById("keywordInput");
+  const searchIcon = document.getElementById("search-icon");
+  const extraContentContainer = document.getElementById('extra-content-container')
 
   productTitleInput.addEventListener('click', () =>{
 
     productTitleInput.classList.add('inputhovered');
     productPriceInput.classList.remove('inputhovered');
     productDescriptionInput.classList.remove('inputhovered');
+    searchInput.classList.remove('inputhovered');
 
   })
 
@@ -58,6 +63,7 @@ const baseURL = "https://dummyjson.com/products";
     productPriceInput.classList.add('inputhovered');
     productTitleInput.classList.remove('inputhovered');
     productDescriptionInput.classList.remove('inputhovered');
+    searchInput.classList.remove('inputhovered');
 
   })
 
@@ -66,30 +72,62 @@ const baseURL = "https://dummyjson.com/products";
     productDescriptionInput.classList.add('inputhovered');
     productTitleInput.classList.remove('inputhovered');
     productPriceInput.classList.remove('inputhovered');
+    searchInput.classList.remove('inputhovered');
 
   })
 
+    searchInput.addEventListener('click', () =>{
+
+    searchInput.classList.add('inputhovered');
+    productDescriptionInput.classList.remove('inputhovered');
+    productTitleInput.classList.remove('inputhovered');
+    productPriceInput.classList.remove('inputhovered');    
+
+  })
+
+  searchIcon.addEventListener('click', () =>{
+
+    const keyword = searchInput.value;
+    
+    if(keyword === ''){
+      renderProducts(products);
+      return;
+    }
+
+    searchByKeyword(keyword);
+    
+  })
+
+
   document.addEventListener('click', (event) =>{
-    if(event.target !== productTitleInput && event.target !== productPriceInput && event.target !== productDescriptionInput){
+    if(event.target !== productTitleInput && event.target !== productPriceInput && event.target !== productDescriptionInput && event.target !== searchInput){
 
       productTitleInput.classList.remove('inputhovered');
       productPriceInput.classList.remove('inputhovered');
       productDescriptionInput.classList.remove('inputhovered');
+      searchInput.classList.remove('inputhovered');
 
     }
   })
 
 let products = [];
 
+let allProducts = [];
+
+getProducts();
+
 let productsLimit = 30;
 
 function getProducts() {
-  fetch(baseURL)
+  fetch(`${baseURL}?limit=194`)
     .then((res) => res.json())
     .then((data) => {
-      products = data.products;
 
-      renderProducts();
+      allProducts = data.products;
+      products = data.products.slice(0, 30);
+
+      renderProducts(products);
+
     })
     .catch((error) =>
       console.error("Hubo un error al llamar a la api: ", error),
@@ -112,8 +150,7 @@ function getMoreProducts(){
   .then((res) => res.json())
   .then((data) =>{
     products.push(...data.products)
-
-    renderProducts();
+    renderProducts(products);
   })
   .catch((error) =>
       console.error("Hubo un error al llamar a la apiX: ", error),
@@ -123,12 +160,13 @@ function getMoreProducts(){
 
 }
 
-function renderProducts() {
+function renderProducts(array) {
+
   const productList = document.getElementById("productList");
 
   productList.innerHTML = "";
 
-  products.forEach((product) => {
+  array.forEach((product) => {
     const listItem = document.createElement("li");
 
     listItem.classList.add("productItem");
@@ -206,7 +244,7 @@ function postProduct() {
     return;
   }
 
-  const exists = products.some(
+  const exists = allProducts.some(
     (product) =>
       product.title.trim().toLowerCase() === productTitle.trim().toLowerCase(),
   );
@@ -233,8 +271,9 @@ function postProduct() {
   })
     .then((res) => res.json())
     .then((data) => {
+      allProducts.unshift(data);
       products.unshift(data);
-      renderProducts();
+      renderProducts(products);
 
       Swal.fire({
         icon: "success",
@@ -276,8 +315,6 @@ function editProduct(productID) {
   editForm.classList.add("editForm");
  }
 
-  //editForm.style.display = editForm.style.display == "none" ? "block" : "none";
-
 }
 
 function updateProduct(productID) {
@@ -307,7 +344,7 @@ function updateProduct(productID) {
     return;
   }
 
-  const exists = products.some(
+  const exists = allProducts.some(
     (product) =>
       product.title.trim().toLowerCase() === editTitle.trim().toLowerCase() &&
       product.id !== productID
@@ -330,7 +367,7 @@ function updateProduct(productID) {
       products[index].price = editPrice;
       products[index].description = editDescription;
 
-      renderProducts();
+      renderProducts(products);
     }
 
     return;
@@ -351,6 +388,7 @@ function updateProduct(productID) {
       const index = products.findIndex((product) => product.id === productID);
 
       if (index != -1) {
+        allProducts[index] = data;
         products[index] = data;
       } else {
         Swal.fire({
@@ -361,7 +399,7 @@ function updateProduct(productID) {
         return;
       }
 
-      renderProducts();
+      renderProducts(products);
     })
     .catch((error) => {
       console.error(
@@ -383,8 +421,9 @@ function deleteProduct(productID) {
   }).then((result) => {
     if (result.isConfirmed) {
       if (productID > 194) {
+        allProducts = allProducts.filter((product) => product.id != productID);
         products = products.filter((product) => product.id != productID);
-        renderProducts();
+        renderProducts(products);
         return;
       }
 
@@ -393,8 +432,9 @@ function deleteProduct(productID) {
       })
         .then((res) => {
           if (res.ok) {
+            allProducts = allProducts.filter((product) => product.id != productID);
             products = products.filter((product) => product.id != productID);
-            renderProducts();
+            renderProducts(products);
           } else {
             console.error("Hubo un error al eliminar el producto");
           }
@@ -404,4 +444,31 @@ function deleteProduct(productID) {
         });
     }
   });
+}
+
+
+function searchByKeyword(keyword){
+
+  if(keyword.trim().length <= 3){
+    Swal.fire({
+          icon: "warning",
+          text: "The keyword muss have more than three letters",
+        });
+
+    return;
+  }
+
+   const matchProducts = allProducts.filter(p =>{
+     return p.title.toLowerCase().includes(keyword.toLowerCase()) ||
+     p.description.toLowerCase().includes(keyword.toLowerCase())
+  })
+
+  if(matchProducts.length == 0){
+    extraContentContainer.style.marginTop = '48px';
+  } else{
+    extraContentContainer.style.marginTop = '30px';
+  }
+
+  renderProducts(matchProducts);
+
 }
