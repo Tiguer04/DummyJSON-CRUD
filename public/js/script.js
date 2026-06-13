@@ -6,7 +6,6 @@ if (!token) {
   validateToken(token);
 }
 
-
 async function validateToken(token) {
   try {
 
@@ -82,6 +81,22 @@ const baseURL = "https://dummyjson.com/products";
     productDescriptionInput.classList.remove('inputhovered');
     productTitleInput.classList.remove('inputhovered');
     productPriceInput.classList.remove('inputhovered');    
+
+  })
+
+  searchInput.addEventListener('keydown', (event) =>{
+   
+    if(event.key === "Enter"){
+
+      const keyword = searchInput.value;
+    
+      if(keyword === ''){
+        renderProducts(products);
+        return;
+      }
+
+      searchByKeyword(keyword);
+    }
 
   })
 
