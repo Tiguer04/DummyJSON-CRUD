@@ -55,6 +55,10 @@ At the top of the page there is a form with three fields: name, price, and descr
 - All fields are required
 - No duplicate product names are allowed
 
+
+### 🔍 Search by keyword
+Below the form there is a search bar that allows you to find products by keyword. Just type a word and the app will instantly filter and display all products whose title or description contains that keyword. The search requires at least 3 characters to avoid overly broad results.
+
 ### Browsing products
 Below the form, the page loads **30 products by default** from DummyJSON. At the bottom of the list there is a **"Watch more..."** button that loads 16 additional products each time it is clicked, until the API limit is reached.
 
